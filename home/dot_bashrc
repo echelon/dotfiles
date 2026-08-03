@@ -1,0 +1,29 @@
+# bash — primary shell on Linux. Shared config lives in ~/.config/shell/.
+
+# Non-interactive shells stop here.
+case $- in *i*) ;; *) return ;; esac
+
+source "$HOME/.config/shell/env.sh"
+source "$HOME/.config/shell/aliases.sh"
+
+# --- History -------------------------------------------------------------------
+HISTSIZE=50000
+HISTFILESIZE=50000
+HISTCONTROL=ignoreboth   # no dups, no space-prefixed commands
+shopt -s histappend
+
+# --- QoL -----------------------------------------------------------------------
+shopt -s checkwinsize    # keep LINES/COLUMNS fresh
+shopt -s globstar 2>/dev/null  # ** recursive glob
+
+# --- Vi mode ---------------------------------------------------------------------
+set -o vi
+
+# --- Modern tool hooks (each activates only if installed) -----------------------
+command -v zoxide   >/dev/null && eval "$(zoxide init bash)"
+command -v fzf      >/dev/null && eval "$(fzf --bash)"
+if command -v starship >/dev/null; then
+  eval "$(starship init bash)"
+else
+  PS1='\[\e[33m\]\u@\h\[\e[0m\]:\[\e[36m\]\w\[\e[0m\]\$ '
+fi

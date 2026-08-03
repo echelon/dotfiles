@@ -1,0 +1,35 @@
+# Homebrew packages (macOS). Applied by chezmoi via run_onchange script.
+# Install manually with: brew bundle --file ~/.config/packages/Brewfile
+
+# --- Terminal core ---
+brew "bat"        # cat with syntax highlighting
+brew "btop"       # prettier htop
+brew "eza"        # modern ls
+brew "fd"         # modern find
+brew "fzf"        # fuzzy finder (^R history, ^T files)
+brew "git-delta"  # syntax-highlighted git pager
+brew "htop"
+brew "jq"
+brew "neovim"
+brew "ripgrep"
+brew "starship"   # cross-shell prompt
+brew "tlrc"       # tldr client: community-written short man pages
+brew "tmux"
+brew "watch"
+brew "wget"
+brew "zoxide"     # smarter cd (z)
+
+# --- Media ---
+brew "ffmpeg"
+brew "yt-dlp"
+cask "vlc"
+
+# --- Build / dev ---
+brew "cmake"
+brew "gh"         # GitHub CLI
+brew "kubectl"
+brew "mysql"
+brew "rclone"
+
+# --- Fonts (icons for eza/starship in the terminal) ---
+cask "font-jetbrains-mono-nerd-font"

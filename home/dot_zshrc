@@ -1,0 +1,31 @@
+# zsh — primary shell on macOS. Shared config lives in ~/.config/shell/.
+
+source "$HOME/.config/shell/env.sh"
+source "$HOME/.config/shell/aliases.sh"
+
+# --- History -----------------------------------------------------------------
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=50000
+setopt SHARE_HISTORY          # share across sessions
+setopt HIST_IGNORE_ALL_DUPS   # no duplicate entries
+setopt HIST_IGNORE_SPACE      # ' cmd' stays out of history
+
+# --- Vi mode ------------------------------------------------------------------
+bindkey -v
+export KEYTIMEOUT=1                               # snappy Esc
+bindkey '^R' history-incremental-search-backward  # keep ^R in vi mode
+
+# --- Completion ---------------------------------------------------------------
+autoload -Uz compinit && compinit
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # case-insensitive
+zstyle ':completion:*' menu select
+
+# Insert space after certain completed symbols
+# https://unix.stackexchange.com/a/174641
+export ZLE_SPACE_SUFFIX_CHARS=$'|&'
+
+# --- Modern tool hooks (each activates only if installed) ---------------------
+command -v zoxide  >/dev/null && eval "$(zoxide init zsh)"    # `z foo` smart cd
+command -v fzf     >/dev/null && source <(fzf --zsh)          # ^R fuzzy history, ^T files
+command -v starship >/dev/null && eval "$(starship init zsh)" # prompt

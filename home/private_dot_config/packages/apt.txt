@@ -1,0 +1,42 @@
+# apt packages (Debian/Ubuntu). One per line; # comments and blanks ignored.
+# Note Debian renames: bat -> batcat binary, fd -> fdfind (aliases.sh handles both).
+# Note: apt's neovim can be very old; prefer the appimage or snap if so.
+
+# Terminal core
+bat
+btop
+curl
+eza
+fd-find
+fzf
+git
+git-delta
+htop
+jq
+neovim
+ripgrep
+tmux
+wget
+xclip
+zoxide
+
+# Build / dev
+build-essential
+cmake
+python3-dev
+python3-venv
+
+# Network
+net-tools
+nmap
+openssh-server
+
+# Compression
+p7zip-full
+unzip
+zip
+
+# Media
+ffmpeg
+sox
+yt-dlp

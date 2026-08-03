@@ -1,0 +1,2 @@
+# Login shells: same config as interactive shells.
+[ -f "$HOME/.bashrc" ] && . "$HOME/.bashrc"
