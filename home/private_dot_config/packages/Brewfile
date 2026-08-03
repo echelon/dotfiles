@@ -11,6 +11,7 @@ brew "git-delta"  # syntax-highlighted git pager
 brew "htop"
 brew "jq"
 brew "neovim"
+brew "tree-sitter-cli" # nvim-treesitter needs the CLI to compile parsers
 brew "ripgrep"
 brew "starship"   # cross-shell prompt
 brew "tlrc"       # tldr client: community-written short man pages

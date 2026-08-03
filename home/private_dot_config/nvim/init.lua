@@ -385,8 +385,11 @@ do
   vim.pack.add { gh 'folke/tokyonight.nvim' }
   ---@diagnostic disable-next-line: missing-fields
   require('tokyonight').setup {
+    transparent = true, -- Let the terminal background (and tmux) show through
     styles = {
       comments = { italic = false }, -- Disable italics in comments
+      sidebars = 'transparent',
+      floats = 'transparent',
     },
   }
 
@@ -976,7 +979,7 @@ do
   -- require 'kickstart.plugins.indent_line'
   -- require 'kickstart.plugins.lint'
   -- require 'kickstart.plugins.autopairs'
-  -- require 'kickstart.plugins.neo-tree'
+  require 'kickstart.plugins.neo-tree' -- file tree sidebar (NERDTree successor); \ or F8
   -- require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
 
   -- NOTE: You can add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
@@ -1007,6 +1010,33 @@ vim.o.foldlevelstart = 20
 
 -- Don't load other people's modelines
 vim.o.modelines = 0
+
+-- Terminal title ("#S / #W" in tmux comes from tmux.conf; this covers bare terminals)
+vim.o.title = true
+
+-- Move by screen line when text is wrapped, but only when no count is given,
+-- so `5j` still works on real lines (the old vimrc's j→gj without the guard broke counts)
+vim.keymap.set({ 'n', 'x' }, 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set({ 'n', 'x' }, 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+
+-- Strip trailing whitespace on save (old vimrc did this for a hardcoded filetype
+-- list; now global, with cursor position preserved)
+vim.api.nvim_create_autocmd('BufWritePre', {
+  group = vim.api.nvim_create_augroup('personal-trim-whitespace', { clear = true }),
+  callback = function()
+    local view = vim.fn.winsaveview()
+    vim.cmd [[keeppatterns %s/\s\+$//e]]
+    vim.fn.winrestview(view)
+  end,
+})
+
+-- Toggles (old vimrc: <C-L> for numbers — now taken by window nav; F5 for spell)
+vim.keymap.set('n', '<leader>tn', '<cmd>set number!<CR>', { desc = '[T]oggle line [N]umbers' })
+vim.keymap.set('n', '<leader>ts', '<cmd>setlocal spell! spelllang=en_us<CR>', { desc = '[T]oggle [S]pell' })
+vim.keymap.set('n', '<F5>', '<cmd>setlocal spell! spelllang=en_us<CR>', { desc = 'Toggle spell (old habit)' })
+
+-- File tree on F8, matching the old NERDTree binding (\ also works, see neo-tree.lua)
+vim.keymap.set('n', '<F8>', '<cmd>Neotree toggle<CR>', { desc = 'Toggle file tree', silent = true })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
