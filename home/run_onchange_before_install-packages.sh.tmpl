@@ -17,14 +17,25 @@ fi
 {{ else if eq .chezmoi.os "linux" -}}
 if command -v apt-get >/dev/null; then
   echo ">> apt install"
-  grep -vE '^\s*(#|$)' "{{ .chezmoi.sourceDir }}/private_dot_config/packages/apt.txt" \
-    | xargs sudo apt-get install -y
+  # Skip packages this release doesn't carry (e.g. eza/git-delta on 22.04);
+  # one unknown name would otherwise fail the whole install.
+  avail=() skipped=()
+  while read -r pkg; do
+    if apt-cache policy "$pkg" 2>/dev/null | grep -q 'Candidate: [^(]'; then
+      avail+=("$pkg")
+    else
+      skipped+=("$pkg")
+    fi
+  done < <(grep -vE '^\s*(#|$)' "{{ .chezmoi.sourceDir }}/private_dot_config/packages/apt.txt")
+  [ "${#skipped[@]}" -gt 0 ] && echo ">> no apt candidate, install another way: ${skipped[*]}"
+  sudo apt-get install -y "${avail[@]}"
 fi
 {{ end -}}
 
-# tmux plugin manager
-if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
-  git clone --depth=1 https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+# tmux plugin manager — tmux.conf runs tpm from ~/.config/tmux/plugins
+# (tpm's default location for configs under ~/.config/tmux)
+if [ ! -d "$HOME/.config/tmux/plugins/tpm" ]; then
+  git clone --depth=1 https://github.com/tmux-plugins/tpm "$HOME/.config/tmux/plugins/tpm"
 fi
 
 # starship config is optional; a default prompt is fine to start.
