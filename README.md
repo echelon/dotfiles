@@ -13,6 +13,7 @@ home/                       chezmoi source state (via .chezmoiroot)
   dot_gitconfig.tmpl        git
   private_dot_config/
     shell/                  env + aliases shared by both shells
+      aliases/            10-tools, 20-shortcuts, 30-typos (typo fixes only)
     tmux/tmux.conf          tmux
     nvim/                   neovim (kickstart.nvim-based, lazy.nvim)
     packages/               Brewfile (macOS) + apt.txt (Linux)
@@ -40,7 +41,7 @@ chezmoi cd                # jump to this repo
 ```
 
 Or edit files here directly and `chezmoi apply`. On this machine the source
-dir is `~/dev/dotfiles` (set in `~/.config/chezmoi/chezmoi.toml`).
+dir is `~/dev/echelon/dotfiles` (set in `~/.config/chezmoi/chezmoi.toml`).
 
 Package changes: edit `home/private_dot_config/packages/Brewfile` or `apt.txt`, then
 `chezmoi apply` re-runs the installer (the script hashes the lists).
