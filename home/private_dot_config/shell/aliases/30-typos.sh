@@ -3,12 +3,14 @@
 # is always safe to read as "what did I mean to type?".
 
 # --- clear ----------------------------------------------------------------
+alias cear='clear'
 alias celar='clear'
+alias claear='clear'
 alias claer='clear'
 alias clea='clear'
-alias clera='clear'
 alias cler='clear'
-alias claear='clear'
+alias clera='clear'
+alias lcear='clear'
 
 # --- ls -------------------------------------------------------------------
 alias sl='ls'
