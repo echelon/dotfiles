@@ -20,6 +20,9 @@ bindkey '^R' history-incremental-search-backward  # keep ^R in vi mode
 autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # case-insensitive
 zstyle ':completion:*' menu select
+# Keep aliases usable, but omit their names from command completion.
+# I don't want typofixes being tab completions - it's frictionful.
+zstyle ':completion:*:*:-command-:*:*' tag-order '! aliases' -
 
 # Insert space after certain completed symbols
 # https://unix.stackexchange.com/a/174641
