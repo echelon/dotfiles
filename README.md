@@ -52,3 +52,12 @@ Package changes: edit `home/private_dot_config/packages/Brewfile` or `apt.txt`, 
 [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) — a single
 heavily-commented `init.lua`. Personal tweaks live at the bottom of
 `init.lua`; read the comments, it's meant to be understood and owned.
+
+Vim's registers and the system clipboard are independent (`clipboard=`), as in
+vanilla Vim. Ordinary `yy`, `dd`, `x`, and `c` use Vim's registers; `p`/`P` paste
+from those registers. Terminal copy/paste shortcuts continue to use the system
+clipboard (Command+C/V on macOS). Copy uses the terminal's selection, which is
+separate from Vim's Visual selection. Ctrl+C/V/X retain their Vim meanings.
+
+The `"+` register remains available for explicit system clipboard access.
+Restart Neovim after applying config changes.
